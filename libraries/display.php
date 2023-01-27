@@ -4,7 +4,7 @@ function view($vue, $tbData=array()){
 		if(!empty($tbData)) {
 			extract($tbData);
 		}
-		include("views/v_".$vue.".php");
+		include("views/".$vue.".php");
 }
 	
 function redirect($ctrl, $action, $param=[]){

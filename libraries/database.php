@@ -3,6 +3,7 @@
 ///// Améliorer les fonctions pour empêcher les injections SQL
 
 function connect($server,$login,$mdp,$bdd){
+	$GLOBALS["bdd"]=$bdd;
 	$GLOBALS["cnx"]=mysqli_connect($server, $login, $mdp, $bdd);
 }
 
@@ -62,8 +63,7 @@ function random($table){
 }
 
 function getDBName() {
-	global $bdd;
-	return $bdd;
+	return $GLOBALS["bdd"];
 }
 
 
