@@ -13,7 +13,6 @@ function web($path="", $file="") {
 }
 
 function query() {
-
 	return explode("/",substr($_SERVER["REQUEST_URI"], strlen(base())+1));
 }
 

@@ -1,7 +1,5 @@
 <?php include_once 'includable/header.php'; ?>
 <?php include_once 'includable/nav.php'; ?>
-
-
 <div class="container">
 <?php foreach ($photos as $photo):?>
     <img    class="img-fluid shadow-1-strong rounded p-2 col-lg-2 col-md-8"
