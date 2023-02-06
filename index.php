@@ -16,9 +16,9 @@ if(file_exists("controllers/".router\controller().".php")){
 
     include("controllers/".router\controller().".php");
     $action="ctrl\\".router\controller()."\\".router\action();
+
     if(function_exists($action)){
         count(router\param())>0 ? call_user_func_array($action, router\param()) : $action(null);
-
     }
     else{
         echo "ERREUR : cette action n'existe pas pour le contrôleur ".router\controller();

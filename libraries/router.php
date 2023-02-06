@@ -21,8 +21,8 @@ function controller(){
 }
 
 function action(){
-	eval("\$action=\\ctrl\\".index()."\\index();");
-	return isset(query()[1]) && !empty(query()[1]) ? query()[1] : $action;
+	eval("\$action=\\ctrl\\".controller()."\\index();");
+    return isset(query()[1]) && !empty(query()[1]) ? query()[1] : $action;
 }
 
 function param(){
