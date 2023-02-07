@@ -11,6 +11,11 @@ function getnameAlbum($id){
     return \database\get($sql);
 }
 
+function get_all_names_album(){
+    $sql = "SELECT nomAlb FROM albums";
+    return \database\select($sql, 2);
+}
+
 function set(){
     \database\set("albums",$_POST, 0);
 }
@@ -19,9 +24,8 @@ function del($id){
     \database\del("albums", $id);
 }
 
-function assoc_album($nomPh){
-    $sql = 'SELECT albums.* FROM comporter JOIN albums ON comporter.idAlb=albums.idAlb WHERE nomPh="'.$nomPh.'"';
-    return \database\select($sql);
+function get_album_by_photo($nomPh){
+    $sql = "SELECT nomAlb FROM comporter JOIN albums ON comporter.idAlb=albums.idAlb JOIN photos on photos.idPh=comporter.idPh WHERE photos.nomPh='".$nomPh."'";
+    return \database\select($sql, 2);
 }
 
-?>

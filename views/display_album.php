@@ -30,7 +30,7 @@ include_once 'includable/nav.php';
 </div>
 <?php if(isset($_SESSION["username"])): ?>
     <div class="d-flex justify-content-center">
-        <a class="btn my-2 m-2 btn-success d-flex justify-content-center w-25" href="<?= router\url("album", "ajouterPhoto") ?>">Ajouter une photo</a>
+        <a class="btn my-2 m-2 btn-success d-flex justify-content-center w-25" href="<?= router\url("photo", "add_photo") ?>">Ajouter une photo</a>
     </div>
 <?php endif; ?>
 
