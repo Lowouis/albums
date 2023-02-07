@@ -47,3 +47,7 @@ function submit_photo(){
 
     \ctrl\album\display();
 }
+
+function update_album(){
+    echo $_POST["radio"];
+}
