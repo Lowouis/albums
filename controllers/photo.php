@@ -5,12 +5,13 @@ namespace ctrl\photo;
 function index(){
     return "display";
 }
-function display($id=null){
+function display($nom){
     view(
-        "display_album",
+        "display_photo",
         [
-            "titre"=>"Photo",
-            "photo"=>\models\album\get($id),
+            "titre"=>"Photo : ".$nom,
+            "photo"=>$nom,
+            "assoc_alb"=>\models\album\assoc_album($nom)
         ]);
 }
 

@@ -14,7 +14,6 @@ function login(){
 }
 function logged(){
     if(\models\user\auth($_POST["username"], $_POST["password"])){
-        session_start();
         $_SESSION["username"] = $_POST["username"];
         redirect("album", "display");
     }
@@ -25,11 +24,8 @@ function logged(){
 }
 
 function logout(){
-    echo "zzzzz";
-    session_abort();
-    session_destroy();
-    var_dump($_SESSION);
-
+    unset($_SESSION["username"]);
+    redirect("album", "display");
 }
 
 function registred(){

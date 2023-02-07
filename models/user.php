@@ -7,19 +7,14 @@ function get_user($id){
 }
 
 function auth($user, $pass){
-    var_dump(true);
-    $sql = "SELECT * FROM users WHERE password=".$pass;
-    var_dump(\database\query($sql));
-    if(\database\query($sql)){
-        return true;
-    }
-    return false;
+    $sql = "SELECT COUNT(*) FROM users WHERE password='".$pass."' AND username='". $_POST["username"]."'";
+    return \database\select($sql,0)==1;
 
 }
 
 
 function register(){
-    if($_POST["username"] != "" && strlen($_POST["password"]) > 8){
+    if($_POST["username"] != "" && strlen($_POST["password"]) >= 8){
         \database\set("users", $_POST);
         return true;
     }
