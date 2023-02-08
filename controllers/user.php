@@ -9,7 +9,7 @@ function login(){
     view(
         "display_login",
         [
-            "titre"=>"Login"
+            "titre"=>"Connexion"
         ]);
 }
 function logged(){
@@ -28,19 +28,11 @@ function logout(){
     redirect("album", "display");
 }
 
-function registred(){
-    view(
-        \models\user\register() ? "display_register_success" : "display_register",
-        [
-            "titre"=>"Register"
-        ]);
-
-}
 
 function register($id=null, $userid=null){
     view(
         "display_register",
         [
-            "titre"=>"Register"
+            "titre"=>"S'enregistrer"
         ]);
 }

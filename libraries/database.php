@@ -12,7 +12,7 @@ function query($sql){
 	$res=mysqli_query($cnx,$sql);
 	$tab=explode(" ", $sql);
 	$action=$tab[0];
-	if($action=="INSERT" AND $res==TRUE) {
+	if($action=="INSERT" AND $res==TRUE){
 		return mysqli_insert_id($cnx);
 	}
 	else {
@@ -105,16 +105,17 @@ function del($nomTable, $param) {
 	if(is_numeric($param)) {
 		$id=$param;
 		$nomId=getPKName($nomTable);
-		$sql="DELETE FROM ".$nomTable." WHERE ".$nomId."=".$id;
+		$sql=" DELETE FROM ".$nomTable." WHERE ".$nomId."=".$id;
 	}
 	elseif(is_array($param)){
-		$sql="DELETE FROM ".$nomTable." WHERE ";
+		$sql=" DELETE FROM ".$nomTable." WHERE ";
 		foreach($param AS $champ=>$val){
 			$sql.=$champ."='".$val."' AND ";
 		}
 	
 		$sql=substr($sql,0,-5);
 	}
+
 	return query($sql);
 }
 

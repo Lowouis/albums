@@ -6,6 +6,7 @@ function index(){
     return "display";
 }
 function display($nom){
+    session_start();
     view(
         "display_photo",
         [
@@ -14,6 +15,7 @@ function display($nom){
             "albums"=>\models\album\get_all_names_album(),
             "assoc_alb"=>\models\album\get_album_by_photo($nom)
         ]);
+    $_SESSION["photo"] = $nom;
 }
 function add_photo(){
     view(
@@ -29,25 +31,59 @@ function delete($id){
 }
 
 function submit_photo(){
-    $target_dir = "./public/data/";
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["photo"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    if(isset($_FILES["submitted_photo"]) && isset($_POST["album"])){
 
-    if(isset($_POST["uploadphoto"])){
-        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-        if($check !== false){
-            echo "File is an image - " . $check["mime"] . ".";
-            $uploadOk = 1;
-        } else {
-            echo "File is not an image.";
-            $uploadOk = 0;
+        $maxsize = 50000000;
+        $valid_ext = array('.jpg', '.jpeg', '.gif', '.png');
+          if($_FILES["submitted_photo"]["error"] > 0){
+            echo "Erreur lors du transfert";
         }
-    }
 
-    \ctrl\album\display();
+        $file_size = $_FILES["submitted_photo"]["size"];
+
+        if($file_size >= $maxsize){
+            echo "Le fichier est trop gros.". ($maxsize/1000000). "mo max";
+        }
+
+        $file_name = $_FILES["submitted_photo"]["full_path"];
+        $file_ext = "." . strtolower(substr(strrchr($file_name, "."), 1));
+
+        if(!in_array($file_ext, $valid_ext)){
+            echo "Extension incorrecte";
+        }
+
+        $tmp_name = $_FILES["submitted_photo"]["tmp_name"];
+        $unique_name = md5(uniqid(rand(), true));
+        $fileName = "public/data/".$unique_name.$file_ext;
+
+        $result = move_uploaded_file($tmp_name, $fileName);
+
+        \models\photo\set($unique_name.$file_ext);
+        $idPh = \models\album\get_idphoto_by_name($unique_name.$file_ext);
+        //injecter dans comporter les albums associés à la photo qui sont stocker dans $_POST["sumbitted_photo"][
+
+        foreach ($_POST["album"] as $album){
+            $idAlb = \models\album\get_idalbum_by_name($album);
+            \models\photo\set_album($idPh,$idAlb);
+        }
+        session_start();
+        $_SESSION["success"] = "Votre photo a bien été ajoutée";
+        redirect("photo", "display", ["nomPh"=>$unique_name.$file_ext]);
+    }
+    else{
+        session_start();
+        $_SESSION["error"] = "Choisissez une photo et au moins un album";
+        redirect("photo", "add_photo");
+    }
 }
 
 function update_album(){
-    echo $_POST["radio"];
+    session_start();
+    \models\album\update_album_by_photo(\models\album\get_idphoto_by_name($_SESSION["photo"]), $_POST["album"]);
+
+}
+
+
+function delete_photo($idPh){
+    \models\photo\del($idPh) ? redirect("album", "display") : redirect("album", "display");
 }
