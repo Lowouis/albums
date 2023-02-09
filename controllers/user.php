@@ -13,11 +13,12 @@ function login(){
         ]);
 }
 function logged(){
-    if(\models\user\auth($_POST["username"], $_POST["password"])){
+    if(\models\user\auth($_POST["username"], md5($_POST["password"]))){
         $_SESSION["username"] = $_POST["username"];
         redirect("album", "display");
     }
     else{
+        $_SESSION["error"] = "Mot de passe ou nom d'utilisateur incorrect.";
         redirect("user", "login");
     }
 
@@ -25,6 +26,7 @@ function logged(){
 
 function logout(){
     unset($_SESSION["username"]);
+    $_SESSION["success"] = "A bientôt !";
     redirect("album", "display");
 }
 

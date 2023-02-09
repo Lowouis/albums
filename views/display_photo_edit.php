@@ -33,7 +33,14 @@ include_once "includable/user.php";
             </fieldset>
         </div>
 
+
     </div>
+    <?php if(isset($_SESSION["error"])):?>
+        <div role="alert" class="alert alert-danger form-group m-auto d-flex justify-content-center">
+            <p class="m-auto"><?= $_SESSION["error"] ?></p>
+        </div>
+
+    <?php endif;unset($_SESSION["error"]); ?>
 </div>
     <div class="d-flex justify-content-center">
         <a class="btn my-2 m-2 btn-success d-flex justify-content-center w-25" href="<?= router\url("album", "display") ?>">Retour</a>

@@ -80,7 +80,7 @@ function submit_photo(){
         $result = move_uploaded_file($tmp_name, $fileName);
 
         \models\photo\set($unique_name.$file_ext);
-        $idPh = \models\album\get_idphoto_by_name($unique_name.$file_ext);
+        $idPh = \models\photo\get_idphoto_by_name($unique_name.$file_ext);
         //injecter dans comporter les albums associés à la photo qui sont stocker dans $_POST["sumbitted_photo"][
 
         foreach ($_POST["album"] as $album){
@@ -98,8 +98,8 @@ function submit_photo(){
 
 function update_album(){
     session_start();
-    \models\album\update_album_by_photo(\models\album\get_idphoto_by_name($_SESSION["photo"]), $_POST["album"]);
-
+    \models\album\update_album_by_photo(\models\photo\get_idphoto_by_name($_SESSION["photo"]), $_POST["album"]);
+    redirect("photo", "edit", ["idPh"=>$_SESSION["photo"]]);
 }
 
 

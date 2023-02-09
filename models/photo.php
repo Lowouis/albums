@@ -16,6 +16,10 @@ function set($nomPh){
     \database\set("photos",["nomPh"=>$nomPh]);
 }
 
+function get_idphoto_by_name($nomPh){
+    return \database\select("SELECT IdPh FROM photos WHERE nomPh='".$nomPh."'", 0);
+}
+
 function set_album($idPh, $idAlb){
     \database\set("comporter",["idPh"=>$idPh, "idAlb"=>$idAlb], 0);
 }

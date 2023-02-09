@@ -28,7 +28,7 @@
 
 <?php if(isset($_SESSION["success"])): ?>
     <div role="alert" class="alert alert-success form-group m-1 d-flex justify-content-center ">
-        <p><?= $_SESSION["success"] ?></p>
+        <p class="m-auto"><?= $_SESSION["success"] ?></p>
     </div>
 <?php endif; unset($_SESSION["success"]) ?>
 

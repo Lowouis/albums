@@ -2,6 +2,7 @@
 
 namespace models\album;
 
+use Exception;
 use mysql_xdevapi\Result;
 
 function get($id=0){
@@ -40,26 +41,20 @@ function get_namealbum_by_id($idAlb){
     return \database\select($sql, 0);
 }
 
-function get_idphoto_by_name($nomPh){
-    return \database\select("SELECT IdPh FROM photos WHERE nomPh='".$nomPh."'", 0);
-}
+
 
 
 function update_album_by_photo($idPh, $tabAlb){
 
-    $sql = "SELECT idAlb FROM comporter WHERE idPh='".$idPh."'";
-    $toUpdate = \database\select($sql, 2);
-    foreach($toUpdate as $alb){
-        if(!in_array($alb, $tabAlb)){
-            \database\del("comporter", ["idPh"=>$idPh, "idAlb"=>$alb["idAlb"]]);
+    try{
+        \database\del("comporter", ["idPh"=>$idPh]);
+        foreach ($tabAlb as $alb){
+            \database\set("comporter", ["idPh"=>$idPh, "idAlb"=>$alb]);
         }
     }
-    foreach($tabAlb as $alb){
-        if(!in_array($alb, $toUpdate)){
-            \database\set("comporter", ["idPh"=>$idPh, "idAlb"=>$alb], 0);
-        }
+    catch(Exception $e){
+        $_SESSION["error"] = "ERREUR EXCEPTION";
     }
-
 
 
 }
