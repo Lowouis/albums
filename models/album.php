@@ -14,7 +14,7 @@ function getnameAlbum($id){
 }
 
 function get_all_names_album(){
-    $sql = "SELECT nomAlb FROM albums";
+    $sql = "SELECT * FROM albums";
     return \database\select($sql, 2);
 }
 
@@ -27,7 +27,7 @@ function del($id){
 }
 
 function get_album_by_photo($nomPh){
-    $sql = "SELECT nomAlb FROM comporter JOIN albums ON comporter.idAlb=albums.idAlb JOIN photos on photos.idPh=comporter.idPh WHERE photos.nomPh='".$nomPh."'";
+    $sql = "SELECT * FROM comporter JOIN albums ON comporter.idAlb=albums.idAlb JOIN photos on photos.idPh=comporter.idPh WHERE photos.nomPh='".$nomPh."'";
     return \database\select($sql, 2);
 }
 
@@ -47,9 +47,9 @@ function get_idphoto_by_name($nomPh){
 
 function update_album_by_photo($idPh, $tabAlb){
 
+    \database\del("comporter", ["idPh"=>$idPh]);
 
     foreach($tabAlb as $alb){
-        \database\del("comporter", ["idPh"=>$idPh, "idAlb"=>$alb]);
         \database\set("comporter", ["idPh"=>$idPh, "idAlb"=>$alb], 0);
     }
 

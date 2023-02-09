@@ -30,7 +30,7 @@ function param(){
 }
 
 function url($ctrl, $action, $param=[]){
-	return base()."/".$ctrl."/".$action."/".implode("/",$param);
+	return base()."/".$ctrl."/".$action. (sizeof($param)!=0 ? "/".implode("/",$param) : "");
 }
 
 ?>

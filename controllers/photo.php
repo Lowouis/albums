@@ -36,7 +36,16 @@ function add_photo(){
     );
 }
 function delete($id){
-    \database\del("photos",$id);
+    $filename = \database\select("SELECT nomPh FROM photos WHERE idPh=".$id)[0]["nomPh"];
+    $path = "public\data\\".$filename;
+    if(!unlink($path)){
+        $_SESSION["error"] = "Erreur lors de la suppression de la photo";
+    }else{
+        $_SESSION["success"] = "La photo a bien été supprimée";
+        \database\del("photos",$id);
+    }
+
+
     redirect("album", "display", [$_SESSION["selected_album"]]);
 }
 
@@ -100,11 +109,8 @@ function submit_photo(){
 
 function update_album(){
     session_start();
+
     \models\album\update_album_by_photo(\models\album\get_idphoto_by_name($_SESSION["photo"]), $_POST["album"]);
     redirect("photo", "edit", [$_SESSION["photo"]]);
 }
 
-
-function delete_photo($idPh){
-    \models\photo\del($idPh) ? redirect("album", "display") : redirect("album", "display");
-}

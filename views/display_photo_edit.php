@@ -21,10 +21,10 @@ include_once "includable/user.php";
                     <?php foreach ($albums as $album):?>
                         <div class="form-check">
                             <input
-                        <?php foreach ($assoc_alb as $ab):?>
-                            <?= $ab["nomAlb"]==$album["nomAlb"] ? "checked" : "" ?>
-                        <?php endforeach; ?>
-                                    class="form-check-input" type="checkbox" value="<?= $album["nomAlb"] ?>" id="<?= $album["nomAlb"] ?>" name="album[]">
+                                    <?php foreach ($assoc_alb as $ab):?>
+                                        <?= $ab["idAlb"]==$album["idAlb"] ? "checked" : "" ?>
+                                    <?php endforeach; echo $album["idAlb"];?>
+                                    class="form-check-input" type="checkbox" value="<?= $album["idAlb"] ?>" id="<?= $album["nomAlb"] ?>" name="album[]">
                                     <label class="form-check-label" for="<?= $album["nomAlb"] ?>"><?= $album["nomAlb"] ?></label>
                         </div>
                     <?php endforeach; ?><input class="btn mt-2 btn-primary w-100" type="submit" value="Mettre à jour">

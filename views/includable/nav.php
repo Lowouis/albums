@@ -1,7 +1,6 @@
 <?php include_once "user.php" ; ?>
 <nav class="d-flex justify-content-center">
 
-
     <?php foreach ($collections as $label):?>
     <div class="">
 
@@ -15,7 +14,7 @@
         </div>
     <?php endforeach; ?>
     <?php if(session_status() == PHP_SESSION_ACTIVE && isset($_SESSION["username"])): ?>
-        <a type="button" class="btn btn-success p-2 m-4" href="<?= router\url("album","add_album_display", [$label["idAlb"]]) ?>">Ajouter album</a>
+        <a type="button" class="btn btn-success p-2 m-4" href="<?= router\url("album","add_album_display", [isset($label["idAlb"]) ? $label["idAlb"] : ""]) ?>">Ajouter album</a>
     <?php endif; ?>
     <?php if(isset($_SESSION["username"])): ?>
         <div class="d-flex justify-content-center">
@@ -28,7 +27,7 @@
 
 <?php if(isset($_SESSION["success"])): ?>
     <div role="alert" class="alert alert-success form-group m-1 d-flex justify-content-center ">
-        <p><?= $_SESSION["success"] ?></p>
+        <p class="m-auto"><?= $_SESSION["success"] ?></p>
     </div>
 <?php endif; unset($_SESSION["success"]) ?>
 

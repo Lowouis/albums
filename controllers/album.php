@@ -7,14 +7,15 @@ function index(){
 }
 function display($id=null){
     session_start();
-    $_SESSION["selected_album"] = $id ? $id : 1;
+    $id = $id ?? \database\select("SELECT idAlb FROM albums LIMIT 1")[0]["idAlb"];
+    $_SESSION["selected_album"] = $id;
     view(
         "display_album",
         [
             "titre"=>"Album Photo",
             "collections"=>\models\album\get(),
-            "collection_name"=>\models\album\get($id == null ? 1 : $id)["nomAlb"],
-            "photos"=>\models\photo\getby_album($id == null ? 1 : $id)
+            "collection_name"=> gettype(\models\album\get($id)) != "boolean" ? \models\album\get($id)["nomAlb"] : $_SESSION["success"]="Aucun album n'a été trouvé, créer en un.",
+            "photos"=>\models\photo\getby_album($id)
         ]);
 }
 
@@ -36,6 +37,7 @@ function confirm_album_add(){
 
 function delete_album($id){
     \models\album\del($id);
+
     redirect("album", "display");
 }
 

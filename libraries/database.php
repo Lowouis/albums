@@ -76,8 +76,8 @@ function getPKName($nomTable) {
 }
 
 
-function set($nomTable, $tbData, $id=0){
-	if($id==0) { // INSERT
+function set($nomTable, $tbData, $id=0) {
+    if($id==0) { // INSERT
 	    $sql="INSERT INTO ";
 	}
 	else { //UPDATE
@@ -96,24 +96,24 @@ function set($nomTable, $tbData, $id=0){
 		$nomId=getPKName($nomTable);
 		$sql.=" WHERE ".$nomId."=".$id;
 	}
-	
 	return query($sql);
 }
 
 
 function del($nomTable, $param) {
-	if(is_numeric($param)) {
+
+    if(is_numeric($param)){
 		$id=$param;
 		$nomId=getPKName($nomTable);
 		$sql=" DELETE FROM ".$nomTable." WHERE ".$nomId."=".$id;
+
 	}
 	elseif(is_array($param)){
 		$sql=" DELETE FROM ".$nomTable." WHERE ";
 		foreach($param AS $champ=>$val){
 			$sql.=$champ."='".$val."' AND ";
 		}
-        echo $sql;
-	
+
 		$sql=substr($sql,0,-5);
 	}
 
