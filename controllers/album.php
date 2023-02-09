@@ -7,6 +7,7 @@ function index(){
 }
 function display($id=null){
     session_start();
+    $_SESSION["selected_album"] = $id ? $id : 1;
     view(
         "display_album",
         [
@@ -30,10 +31,17 @@ function add_album_display(){
 function confirm_album_add(){
     //ajouter dans sql avec la variable de sesssion
     \models\album\set();
-    display();
+    redirect("album", "display");
 }
 
-function supprimerAlbum($id){
+function delete_album($id){
     \models\album\del($id);
-    display();
+    redirect("album", "display");
+}
+
+function confirm_delete_album($id){
+    session_start();
+    $_SESSION["confirm_delete_album"] = ["nomAlb"=>\models\album\get_namealbum_by_id($id), "idAlb"=>$id];
+    redirect("album", "display",["idAlb"=>$id]);
+
 }

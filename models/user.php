@@ -13,11 +13,24 @@ function auth($user, $pass){
 }
 
 
-function register(){
-    if($_POST["username"] != "" && strlen($_POST["password"]) >= 8){
-        \database\set("users", $_POST);
-        return true;
+function register($user, $pass, $confirm){
+    session_start();
+    if($user=="" || $pass=="" || $confirm==""){
+        $_SESSION["error"] = "Veuillez remplir tous les champs.";
+        return false;
     }
-    return false;
+    elseif ($pass != $confirm){
+        $_SESSION["error"] = "Les mots de passe ne correspondent pas.";
+        return false;
+    }
+    elseif(strlen($_POST["password"]) > 8){
+        var_dump(strlen($_POST["password"]));
+        die();
+        $_SESSION["error"] = "Le mot de passe doit contenir au moins 8 caractères.";
+        return false;
+    }
+    $_SESSION["success"] = "Merci de vous être enregistré. Vous pouvez maintenant vous connecter";
+    \database\set("users", ["username"=>$_POST["username"], "password"=>$_POST["password"]]);
+    return true;
 }
 

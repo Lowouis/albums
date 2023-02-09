@@ -28,6 +28,9 @@ function logout(){
     redirect("album", "display");
 }
 
+function registred(){
+    \models\user\register($_POST["username"],$_POST["password"],$_POST["password_confirm"]) ? redirect("album", "display") : redirect("user", "register");
+}
 
 function register($id=null, $userid=null){
     view(

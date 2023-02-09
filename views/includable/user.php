@@ -3,7 +3,7 @@
 
 
     <?php if(session_status() == PHP_SESSION_ACTIVE && isset($_SESSION["username"])): ?>
-        <h4 class="m-2 align-middle "><small class="text-success"><?= $_SESSION["username"]. " "?></small>est connecté</h4>
+        <h4 class="m-2 align-middle "><bold class="text-success"><?= ucfirst($_SESSION["username"]). " "?></bold>est connecté</h4>
         <a href="<?= router\url("user","logout") ?>" class="btn btn-danger m-2"><span class="material-symbols-rounded">logout</span></a>
     <?php else: ?>
 

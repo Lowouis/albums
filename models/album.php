@@ -35,6 +35,10 @@ function get_idalbum_by_name($nomAlb){
     $sql = "SELECT idAlb FROM albums WHERE nomAlb='".$nomAlb."'";
     return \database\select($sql, 0);
 }
+function get_namealbum_by_id($idAlb){
+    $sql = "SELECT nomAlb FROM albums WHERE idAlb='".$idAlb."'";
+    return \database\select($sql, 0);
+}
 
 function get_idphoto_by_name($nomPh){
     return \database\select("SELECT IdPh FROM photos WHERE nomPh='".$nomPh."'", 0);

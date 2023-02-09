@@ -8,9 +8,18 @@ function index(){
 function display($nom){
     session_start();
     view(
-        "display_photo",
+        "display_photo",[
+            "titre"=>$nom,
+            "photo"=>$nom
+    ]);
+    $_SESSION["photo"] = $nom;
+}
+function edit($nom){
+    session_start();
+    view(
+        "display_photo_edit",
         [
-            "titre"=>"Photo : ".$nom,
+            "titre"=>"Edition de la photo",
             "photo"=>$nom,
             "albums"=>\models\album\get_all_names_album(),
             "assoc_alb"=>\models\album\get_album_by_photo($nom)
@@ -27,29 +36,41 @@ function add_photo(){
     );
 }
 function delete($id){
-    return \database\get("photos",$id);
+    \database\del("photos",$id);
+    redirect("album", "display", [$_SESSION["selected_album"]]);
+}
+
+function confirm_delete($id){
+    session_start();
+    $_SESSION["confirm_delete_photo"] = $id;
+    redirect("album", "display", [$_SESSION["selected_album"]]);
 }
 
 function submit_photo(){
+    session_start();
     if(isset($_FILES["submitted_photo"]) && isset($_POST["album"])){
-
         $maxsize = 50000000;
         $valid_ext = array('.jpg', '.jpeg', '.gif', '.png');
           if($_FILES["submitted_photo"]["error"] > 0){
-            echo "Erreur lors du transfert";
+              $_SESSION["error"] = "Erreur lors du transfert";
+              redirect("photo", "add_photo");
         }
 
         $file_size = $_FILES["submitted_photo"]["size"];
 
         if($file_size >= $maxsize){
-            echo "Le fichier est trop gros.". ($maxsize/1000000). "mo max";
+            $_SESSION["error"] = "Le fichier est trop gros.". ($maxsize/1000000). "mo max";
+            redirect("photo", "add_photo");
+            die();
         }
 
         $file_name = $_FILES["submitted_photo"]["full_path"];
         $file_ext = "." . strtolower(substr(strrchr($file_name, "."), 1));
 
         if(!in_array($file_ext, $valid_ext)){
-            echo "Extension incorrecte";
+            $_SESSION["error"] = "Extension incorrecte";
+            redirect("photo", "add_photo");
+            die();
         }
 
         $tmp_name = $_FILES["submitted_photo"]["tmp_name"];
@@ -66,12 +87,10 @@ function submit_photo(){
             $idAlb = \models\album\get_idalbum_by_name($album);
             \models\photo\set_album($idPh,$idAlb);
         }
-        session_start();
         $_SESSION["success"] = "Votre photo a bien été ajoutée";
         redirect("photo", "display", ["nomPh"=>$unique_name.$file_ext]);
     }
     else{
-        session_start();
         $_SESSION["error"] = "Choisissez une photo et au moins un album";
         redirect("photo", "add_photo");
     }

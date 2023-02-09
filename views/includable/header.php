@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="fr">
 <head>
@@ -9,10 +8,7 @@
     <title>Album - CRUD</title>
 </head>
 <body>
-<!--a faire plus tard -- switcher le btn back en fonction de la ou on est-->
 <h1 class="h1 text-center font-weight-bold text-lg-center ml-1 px-2"><?= $titre ?></h1>
-
-
 <div>
 </div>
 

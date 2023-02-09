@@ -16,8 +16,8 @@ include_once 'includable/nav.php';
         <div class="mt-3 mb-3">
             <div class="absolute-bottom">
                 <?php if(session_status() == PHP_SESSION_ACTIVE && isset($_SESSION["username"])): ?>
-                <a  class="btn btn-success"><span class="material-symbols-outlined">edit</span></a>
-                <a  href="<?= router\url("photo","delete_photo", [$photo['idPh']]) ?>"  class="btn btn-danger"><span class="material-symbols-outlined">delete</span></a>
+                <a  href="<?= router\url("photo","edit", [$photo['nomPh'], $photo['idPh']]) ?>" class="btn btn-success"><span class="material-symbols-outlined">edit</span></a>
+                <a  href="<?= router\url("photo","confirm_delete", [$photo['idPh']]) ?>"  class="btn btn-danger"><span class="material-symbols-outlined">delete</span></a>
                 <?php endif; ?>
             </div>
         </div>
