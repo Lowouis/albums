@@ -54,6 +54,8 @@ function submit_photo(){
           if($_FILES["submitted_photo"]["error"] > 0){
               $_SESSION["error"] = "Erreur lors du transfert";
               redirect("photo", "add_photo");
+              die();
+
         }
 
         $file_size = $_FILES["submitted_photo"]["size"];
@@ -99,7 +101,7 @@ function submit_photo(){
 function update_album(){
     session_start();
     \models\album\update_album_by_photo(\models\album\get_idphoto_by_name($_SESSION["photo"]), $_POST["album"]);
-
+    redirect("photo", "edit", [$_SESSION["photo"]]);
 }
 
 

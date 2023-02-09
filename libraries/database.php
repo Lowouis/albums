@@ -112,6 +112,7 @@ function del($nomTable, $param) {
 		foreach($param AS $champ=>$val){
 			$sql.=$champ."='".$val."' AND ";
 		}
+        echo $sql;
 	
 		$sql=substr($sql,0,-5);
 	}

@@ -47,19 +47,11 @@ function get_idphoto_by_name($nomPh){
 
 function update_album_by_photo($idPh, $tabAlb){
 
-    $sql = "SELECT idAlb FROM comporter WHERE idPh='".$idPh."'";
-    $toUpdate = \database\select($sql, 2);
-    foreach($toUpdate as $alb){
-        if(!in_array($alb, $tabAlb)){
-            \database\del("comporter", ["idPh"=>$idPh, "idAlb"=>$alb["idAlb"]]);
-        }
-    }
-    foreach($tabAlb as $alb){
-        if(!in_array($alb, $toUpdate)){
-            \database\set("comporter", ["idPh"=>$idPh, "idAlb"=>$alb], 0);
-        }
-    }
 
+    foreach($tabAlb as $alb){
+        \database\del("comporter", ["idPh"=>$idPh, "idAlb"=>$alb]);
+        \database\set("comporter", ["idPh"=>$idPh, "idAlb"=>$alb], 0);
+    }
 
 
 }
