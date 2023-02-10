@@ -29,3 +29,4 @@ if(file_exists("controllers/".router\controller().".php")){
 else{
     echo "ERREUR : ce contrôleur n'existe pas";
 }
+

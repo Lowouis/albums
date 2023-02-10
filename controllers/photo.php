@@ -8,16 +8,7 @@ function index(){
 function display($nom){
     session_start();
     view(
-        "display_photo",[
-            "titre"=>$nom,
-            "photo"=>$nom
-    ]);
-    $_SESSION["photo"] = $nom;
-}
-function edit($nom){
-    session_start();
-    view(
-        "display_photo_edit",
+        "display_photo",
         [
             "titre"=>"Edition de la photo",
             "photo"=>$nom,
@@ -25,6 +16,14 @@ function edit($nom){
             "assoc_alb"=>\models\album\get_album_by_photo($nom)
         ]);
     $_SESSION["photo"] = $nom;
+}
+function edit($nom){
+    session_start();
+    $_SESSION["photo_edit"] = true;
+    display($nom);
+    $_SESSION["photo"] = $nom;
+    $_SESSION["photo_edit"] = false;
+
 }
 function add_photo(){
     view(
@@ -86,9 +85,9 @@ function submit_photo(){
 
         $tmp_name = $_FILES["submitted_photo"]["tmp_name"];
         $unique_name = md5(uniqid(rand(), true));
-        $fileName = "public/data/".$unique_name.$file_ext;
+        $path = "public/data/".$unique_name.$file_ext;
 
-        $result = move_uploaded_file($tmp_name, $fileName);
+        $result = move_uploaded_file($tmp_name, $path);
 
         \models\photo\set($unique_name.$file_ext);
         $idPh = \models\album\get_idphoto_by_name($unique_name.$file_ext);

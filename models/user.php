@@ -30,7 +30,10 @@ function register($user, $pass, $confirm){
         return false;
     }
     $_SESSION["success"] = "Merci de vous être enregistré. Vous pouvez maintenant vous connecter";
-    \database\set("users", ["username"=>$_POST["username"], "password"=>$_POST["password"]]);
+
+    $encypted_pw = md5($_POST["password"]);
+    \database\set("users", ["username"=>$_POST["username"], "password"=>$encypted_pw]);
+
     return true;
 }
 

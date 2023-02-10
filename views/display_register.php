@@ -1,18 +1,12 @@
 <?php include_once 'includable/header.php'; ?>
 
 
-
-
-
 <div class="d-flex justify-content-center">
 
 
     <form action="<?= router\url("user","registred") ?>" method="post" class="col-md-4">
-        <?php if(isset($_SESSION["error"])): ?>
-            <div role="alert" class="alert alert-danger form-group m-1">
-                <p class="text-align m-auto"><?= $_SESSION["error"] ?></p>
-            </div>
-        <?php endif; unset($_SESSION["error"]); ?>
+
+        <?php include_once "includable/alert.php" ?>
 
         <div class="form-group m-1">
             <label for="exampleInputEmail1">Nom d'utilisateur</label>
