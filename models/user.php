@@ -23,9 +23,7 @@ function register($user, $pass, $confirm){
         $_SESSION["error"] = "Les mots de passe ne correspondent pas.";
         return false;
     }
-    elseif(strlen($_POST["password"]) > 8){
-        var_dump(strlen($_POST["password"]));
-        die();
+    elseif(strlen($_POST["password"]) < 8){
         $_SESSION["error"] = "Le mot de passe doit contenir au moins 8 caractères.";
         return false;
     }
@@ -33,7 +31,7 @@ function register($user, $pass, $confirm){
 
     $encypted_pw = md5($_POST["password"]);
     \database\set("users", ["username"=>$_POST["username"], "password"=>$encypted_pw]);
-
+    die();
     return true;
 }
 

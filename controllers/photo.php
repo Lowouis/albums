@@ -38,7 +38,9 @@ function delete($id){
     $filename = \database\select("SELECT nomPh FROM photos WHERE idPh=".$id)[0]["nomPh"];
     $path = "public\data\\".$filename;
     if(!unlink($path)){
-        $_SESSION["error"] = "Erreur lors de la suppression de la photo";
+        $_SESSION["error"] = "Erreur lors de la suppression de la photo, la photo est supprimé de la base de donnée";
+        \database\del("photos",$id);
+
     }else{
         $_SESSION["success"] = "La photo a bien été supprimée";
         \database\del("photos",$id);
