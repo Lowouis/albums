@@ -2,14 +2,14 @@
 <nav class="d-flex justify-content-center">
 
     <?php foreach ($collections as $label):?>
-    <div class="">
+        <div class="">
 
-        <a  class="btn btn-primary p-2 <?= $label["nomAlb"] == $collection_name && isset($_SESSION["username"]) ? "mr-0 mt-4 mb-4 ml-4":"m-4"?>"
-            href="<?= router\url("album","display", [$label["idAlb"]]) ?>"><?= $label["nomAlb"] ?>
-            <?php if($label["nomAlb"] == $collection_name && isset($_SESSION["username"])): ?>
-                <a href="<?= router\url("album","confirm_delete_album", [$label["idAlb"]]) ?>" class="btn btn-danger m-0 p-2">X</a>
-            <?php endif; ?>
-        </a>
+            <a  class="btn btn-primary p-2 <?= $label["nomAlb"] == $collection_name && isset($_SESSION["username"]) && isset($_SESSION["access"]) && $_SESSION["access"] >= 1 ? "mr-0 mt-4 mb-4 ml-4":"m-4"?>"
+                href="<?= router\url("album","display", [$label["idAlb"]]) ?>"><?= $label["nomAlb"] ?>
+                <?php if($label["nomAlb"] == $collection_name && isset($_SESSION["username"]) && isset($_SESSION["access"]) && $_SESSION["access"] >= 1): ?>
+                    <a href="<?= router\url("album","confirm_delete_album", [$label["idAlb"]]) ?>" class="btn btn-danger m-0 p-2">X</a>
+                <?php endif; ?>
+            </a>
 
         </div>
     <?php endforeach; ?>

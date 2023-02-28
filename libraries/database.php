@@ -58,6 +58,11 @@ function get($table, $id=0){
 	}
 }
 
+function getOrdered($table,$by){
+    $sql="SELECT * FROM ".$table." ORDER BY ".$by;
+    return select($sql);
+}
+
 function random($table){
 	return select("SELECT ".getPKName($table)." FROM ".$table." ORDER BY RAND() LIMIT 1", 0);
 }

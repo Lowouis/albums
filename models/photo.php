@@ -3,12 +3,16 @@
 namespace models\photo;
 
 function get($id=0){
-    return \database\get("photos", $id);
+    return \database\get("photos",$id);
+}
+
+function getOrdered($table, $by){
+    return \database\getOrdered("photos", "idPh");
 }
 
 
 function getby_album($id){
-   return \database\select("select * from photos inner join comporter on photos.idPh = comporter.idPh where comporter.idAlb=".$id);
+   return \database\select("select * from photos inner join comporter on photos.idPh = comporter.idPh where comporter.idAlb=".$id." ORDER BY photos.idPh ASC");
 }
 
 function set($nomPh){

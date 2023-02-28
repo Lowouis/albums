@@ -40,31 +40,29 @@ function delete($id){
     if(!unlink($path)){
         $_SESSION["error"] = "Erreur lors de la suppression de la photo, la photo est supprimé de la base de donnée";
         \database\del("photos",$id);
-
+        \models\events\insert_new_log(\database\select("SELECT id FROM users WHERE username='".$_SESSION["username"]."'", 0), "error_delete_photo");
     }else{
         $_SESSION["success"] = "La photo a bien été supprimée";
         \database\del("photos",$id);
-    }
+        \models\events\insert_new_log(\database\select("SELECT id FROM users WHERE username='".$_SESSION["username"]."'", 0), "success_delete_photo");
 
+    }
 
     redirect("album", "display", [$_SESSION["selected_album"]]);
 }
 
 function confirm_delete($id){
-    session_start();
     $_SESSION["confirm_delete_photo"] = $id;
     redirect("album", "display", [$_SESSION["selected_album"]]);
 }
 
 function submit_photo(){
-    session_start();
     if(isset($_FILES["submitted_photo"]) && isset($_POST["album"])){
         $maxsize = 50000000;
         $valid_ext = array('.jpg', '.jpeg', '.gif', '.png');
           if($_FILES["submitted_photo"]["error"] > 0){
               $_SESSION["error"] = "Erreur lors du transfert";
               redirect("photo", "add_photo");
-              die();
 
         }
 
@@ -73,7 +71,6 @@ function submit_photo(){
         if($file_size >= $maxsize){
             $_SESSION["error"] = "Le fichier est trop gros.". ($maxsize/1000000). "mo max";
             redirect("photo", "add_photo");
-            die();
         }
 
         $file_name = $_FILES["submitted_photo"]["full_path"];
@@ -82,7 +79,6 @@ function submit_photo(){
         if(!in_array($file_ext, $valid_ext)){
             $_SESSION["error"] = "Extension incorrecte";
             redirect("photo", "add_photo");
-            die();
         }
 
         $tmp_name = $_FILES["submitted_photo"]["tmp_name"];
@@ -100,6 +96,7 @@ function submit_photo(){
             \models\photo\set_album($idPh,$idAlb);
         }
         $_SESSION["success"] = "Votre photo a bien été ajoutée";
+        \models\events\insert_new_log(\database\select("SELECT id FROM users WHERE username='".$_SESSION["username"]."'", 0), "success_photo_added");
         redirect("photo", "display", ["nomPh"=>$unique_name.$file_ext]);
     }
     else{
@@ -110,8 +107,8 @@ function submit_photo(){
 
 function update_album(){
     session_start();
-
     \models\album\update_album_by_photo(\models\album\get_idphoto_by_name($_SESSION["photo"]), $_POST["album"]);
+    \models\events\insert_new_log(\database\select("SELECT id FROM users WHERE username='".$_SESSION["username"]."'", 0), "update_albums_of_photo");
     redirect("photo", "edit", [$_SESSION["photo"]]);
 }
 
