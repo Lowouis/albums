@@ -64,7 +64,6 @@ function submit_photo(){
           if($_FILES["submitted_photo"]["error"] > 0){
               $_SESSION["error"] = "Erreur lors du transfert";
               redirect("photo", "add_photo");
-              die();
 
         }
 
@@ -73,7 +72,6 @@ function submit_photo(){
         if($file_size >= $maxsize){
             $_SESSION["error"] = "Le fichier est trop gros.". ($maxsize/1000000). "mo max";
             redirect("photo", "add_photo");
-            die();
         }
 
         $file_name = $_FILES["submitted_photo"]["full_path"];
@@ -82,7 +80,6 @@ function submit_photo(){
         if(!in_array($file_ext, $valid_ext)){
             $_SESSION["error"] = "Extension incorrecte";
             redirect("photo", "add_photo");
-            die();
         }
 
         $tmp_name = $_FILES["submitted_photo"]["tmp_name"];
